@@ -26,4 +26,5 @@ public interface TeamRepository extends JpaRepository<Team, UUID> {
     @Query("SELECT t FROM Team t JOIN FETCH t.repository r JOIN FETCH r.owner WHERE t.user = :user")
     List<Team> findAllByUserWithRepository(@Param("user") User user);
 
+    Optional<Team> findByRepositoryIdAndUserId(UUID repositoryId, UUID userId);
 }

@@ -76,6 +76,8 @@ public class FileServiceImpl implements FileService{
                 .fileType(fileInfo.fileType())
                 .build();
 
+        savedfile.calculateLevel();
+
         fileRepository.save(savedfile);
 
         return FileUploadResponse.from(savedfile);

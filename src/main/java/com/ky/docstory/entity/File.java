@@ -40,7 +40,20 @@ public class File extends BaseEntity {
     @Column(nullable = false)
     private FileType fileType;
 
+    @Column(nullable = false)
+    private int level;
+
     public enum FileType {
         HWP, DOCX, PDF, HWPX
+    }
+
+    public void calculateLevel() {
+        int depth = 0;
+        File parent = this.parentFile;
+        while (parent != null) {
+            depth++;
+            parent = parent.getParentFile();
+        }
+        this.level = depth;
     }
 }
