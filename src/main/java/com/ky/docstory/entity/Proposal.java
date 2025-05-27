@@ -1,5 +1,7 @@
 package com.ky.docstory.entity;
 
+import com.ky.docstory.common.code.DocStoryResponseCode;
+import com.ky.docstory.common.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +37,31 @@ public class Proposal extends BaseEntity {
         MERGED,
         CLOSED
     }
+
+    public void updateContent(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void changeStatus(Status newStatus) {
+        if (this.status == Status.MERGED) {
+            throw new BusinessException(DocStoryResponseCode.ALREADY_MERGED_PROPOSAL);
+        }
+        if (this.status == Status.CLOSED && newStatus != Status.OPEN) {
+            throw new BusinessException(DocStoryResponseCode.RESOURCE_CONFLICT);
+        }
+        if (this.status == Status.OPEN &&
+                !(newStatus == Status.CLOSED || newStatus == Status.MERGED)) {
+            throw new BusinessException(DocStoryResponseCode.RESOURCE_CONFLICT);
+        }
+        this.status = newStatus;
+    }
+
+    public void merge() {
+        if (this.status == Status.MERGED) {
+            throw new BusinessException(DocStoryResponseCode.ALREADY_MERGED_PROPOSAL);
+        }
+        this.status = Status.MERGED;
+    }
+
 }

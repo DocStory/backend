@@ -52,9 +52,12 @@ public class FileServiceImpl implements FileService{
                 .orElseThrow(() -> new BusinessException(DocStoryResponseCode.NOT_FOUND));
 
         File parentFile = null;
+        File rootFile = null;
+
         if (parentFileId != null) {
             parentFile = fileRepository.findById(parentFileId)
                     .orElseThrow(() -> new BusinessException(DocStoryResponseCode.NOT_FOUND));
+            rootFile = parentFile.getRootFile() != null ? parentFile.getRootFile() : parentFile;
         }
 
         FileInfo fileInfo = createFileInfo(file);
@@ -70,11 +73,14 @@ public class FileServiceImpl implements FileService{
         File savedfile = File.builder()
                 .repository(repository)
                 .parentFile(parentFile)
+                .rootFile(rootFile)
                 .originFilename(fileInfo.originalFilename())
                 .saveFilename(fileInfo.saveFilename())
                 .filepath(fileInfo.filePath())
                 .fileType(fileInfo.fileType())
                 .build();
+
+        savedfile.calculateLevel();
 
         fileRepository.save(savedfile);
 

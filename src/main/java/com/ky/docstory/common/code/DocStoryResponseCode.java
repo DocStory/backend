@@ -34,7 +34,11 @@ public enum DocStoryResponseCode {
     ALREADY_HANDLED(1016, "이미 처리된 요청입니다.", HttpStatus.CONFLICT),
     FILE_DOWNLOAD_FAILED(1017, "파일 다운로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     FILE_DELETE_FAILED(1018, "파일 삭제에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_FILE(1019, "유효하지 않은 파일입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    INVALID_FILE(1019, "유효하지 않은 파일입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    ALREADY_MERGED_PROPOSAL(1020, "이미 병합된 Proposal 입니다.", HttpStatus.CONFLICT),
+    BAD_JSON_FORMAT(1021, "요청 형식이 올바르지 않습니다. 입력 값을 확인해주세요.", HttpStatus.BAD_REQUEST);
+
+
 
     private final int code;
     private final String message;

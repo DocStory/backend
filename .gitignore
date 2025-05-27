@@ -219,5 +219,6 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/gradle,windows,macos,git,java,intellij+all
 
 ### env ###
-src/main/resources/env.properties
+src/main/resources/env-dev.properties
+src/main/resources/env-prod.properties
 .env

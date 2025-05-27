@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mysql:
+    container_name: mysql_prod
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_PROD_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PROD_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - prod_data:/var/lib/mysql
+    networks:
+      - prod-network
+
+  springboot:
+    container_name: springboot_prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8080:8080"
+    networks:
+      - prod-network
+
+volumes:
+  prod_data:
+
+networks:
+  prod-network:
+    driver: bridge

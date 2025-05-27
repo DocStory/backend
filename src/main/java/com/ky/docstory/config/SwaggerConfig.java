@@ -13,7 +13,8 @@ import org.springframework.http.HttpHeaders;
 
 @OpenAPIDefinition(
         servers = {
-                @Server(url = "http://localhost:8080", description = "DocStory local 서버")
+                @Server(url = "http://localhost:8080", description = "DocStory local 서버"),
+                @Server(url = "https://docstory.kr", description = "DocStory 배포 서버")
         }
 )
 @Configuration

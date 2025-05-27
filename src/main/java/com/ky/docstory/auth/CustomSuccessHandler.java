@@ -1,10 +1,11 @@
 package com.ky.docstory.auth;
 
 import com.ky.docstory.jwt.JWTUtil;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,9 +38,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         claims.put("profileImage", profileImage);
 
         String token = jwtUtil.createToken(claims);
-        Cookie jwtCookie = jwtUtil.createJwtCookie(token);
 
-        response.addCookie(jwtCookie);
-        response.sendRedirect(redirectUri);
+        String redirectWithToken = redirectUri + "?accessToken=" + URLEncoder.encode(token, StandardCharsets.UTF_8);
+        response.sendRedirect(redirectWithToken);
     }
 }

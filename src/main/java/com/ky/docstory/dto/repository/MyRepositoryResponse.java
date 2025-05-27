@@ -21,15 +21,19 @@ public record MyRepositoryResponse(
         String ownerNickname,
 
         @Schema(description = "내 역할", example = "CONTRIBUTOR")
-        Team.Role myRole
+        Team.Role myRole,
+
+        @Schema(description = "즐겨 찾기 여부", example = "ture")
+        boolean isFavorite
 ) {
-    public static MyRepositoryResponse from(Team team) {
+    public static MyRepositoryResponse from(Team team, boolean isFavorite) {
         return new MyRepositoryResponse(
                 team.getRepository().getId(),
                 team.getRepository().getName(),
                 team.getRepository().getDescription(),
                 team.getRepository().getOwner().getNickname(),
-                team.getRole()
+                team.getRole(),
+                isFavorite
         );
     }
 }
